@@ -1,34 +1,26 @@
-// Stripe
-const keyPublishable = process.env.PUBLISHABLE_KEY;
-const keySecret = process.env.SECRET_KEY;
-const stripe = require("stripe")(keySecret);
 
 const express = require("express");
 const app = express();
-app.get('/', (req, res) => {
-  res.send('f');
+const { resolve } = require("path");
+// This is your real test secret API key.
+const stripe = require("stripe")("sk_test_jOhmfBMo8j7LMZ3fippevbXw00no0OnVvr");
+app.use(express.static("."));
+app.use(express.json());
+const calculateOrderAmount = items => {
+  // Replace this constant with a calculation of the order's amount
+  // Calculate the order total on the server to prevent
+  // people from directly manipulating the amount on the client
+  return 1400;
+};
+app.post("/create-payment-intent", async (req, res) => {
+  const { items } = req.body;
+  // Create a PaymentIntent with the order amount and currency
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: calculateOrderAmount(items),
+    currency: "usd"
+  });
+  res.send({
+    clientSecret: paymentIntent.client_secret
+  });
 });
-
-app.post("/checkout", function(request, response) {
-  return response.send("hi");
-  try {
-    let customer = stripe.customers.create({
-       description: "Sample"
-    });
-    console.log(customer)
-
-    response.send({
-      "customer_id": customer
-    })
-  }
-  catch (err) {
-    console.log(err);
-  }
-  // const {name, message} = request.query
-  // response.send({name, message})
-});
-
-const listener = app.listen(process.env.PORT, function() {
-    console.log("Your app is listening on port " + listener.address().port);
-});
-
+app.listen(4242, () => console.log('Node server listening on port 4242!'));
