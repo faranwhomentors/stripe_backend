@@ -22,13 +22,13 @@ app.post("/checkout", async (req, res) => {
   
   const ephemeralKey = await stripe.ephemeralKeys.create(
     {customer: customer.id},
-    {api_version: '2020-08-27'}
+    {apiVersion: '2020-08-27'}
   );  
   
   res.send({
     clientSecret: paymentIntent.client_secret,
     customerID: customer.id,
-    ephemeralKeySecret: ephemeralKey.secret
+    ephemeralKey: ephemeralKey.secret
   });
 });
 
