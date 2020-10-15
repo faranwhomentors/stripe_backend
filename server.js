@@ -9,8 +9,7 @@ app.use(express.static("."));
 app.use(express.json());
 
 app.post("/checkout", async (req, res) => {
-  // const { items } = req.body;
-  console.log('hi');
+
   const customer = await stripe.customers.create();
   
   // Create a PaymentIntent with the order amount and currency
