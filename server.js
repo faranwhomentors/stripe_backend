@@ -10,7 +10,16 @@ app.use(express.json());
 
 app.post("/checkout", async (req, res) => {
 
-  const customer = await stripe.customers.create();
+  let customer_type = req.body.customer
+  let customer
+  if (customer_type == "new") {
+      customer = await stripe.customers.create();
+  } else if (customer_type == "saved") {
+      customer = await stripe.customers.retrieve(
+        ''
+      );
+  }
+  
   
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
