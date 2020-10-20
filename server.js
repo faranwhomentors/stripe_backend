@@ -11,12 +11,13 @@ app.use(express.json());
 app.post("/checkout", async (req, res) => {
 
   let customer_type = req.body.customer
+  console.log(req.body)
   let customer
   if (customer_type == "new") {
       customer = await stripe.customers.create();
   } else if (customer_type == "saved") {
       customer = await stripe.customers.retrieve(
-        ''
+        'cus_GWUuPERgJF44Dm'
       );
   }
   
