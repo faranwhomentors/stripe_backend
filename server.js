@@ -12,11 +12,11 @@ app.post("/checkout", async (req, res) => {
   let customer_type = req.body.customer
   console.log(req.body)
   let customer
-  if (customer_type == "new") {
+  if (customer_type == "new" || customer_type == null) {
       customer = await stripe.customers.create();
-  } else if (customer_type == "saved") {
+  } else if (customer_type == "returning") {
       customer = await stripe.customers.retrieve(
-        'cus_GWUuPERgJF44Dm'
+        'cus_GWUuPERgJF44Dm'  // A hardcoded customer ID
       );
   }
   
@@ -27,7 +27,7 @@ app.post("/checkout", async (req, res) => {
     customer: customer.id
   });
   
-  // Create a 
+  // Create an ephemeral key for the Customer
   const ephemeralKey = await stripe.ephemeralKeys.create(
     {customer: customer.id},
     {apiVersion: '2020-08-27'}
@@ -54,7 +54,6 @@ app.post("/checkout_playground", async (req, res) => {
       );
   }
   
-  // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
     amount: 100,
     currency: "usd",
