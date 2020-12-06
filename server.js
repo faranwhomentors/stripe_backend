@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const { resolve } = require("path");
-const stripe = require("stripe")(process.env.secret_key);
+const stripe = require("stripe")(process.env.secret_key); // https://stripe.com/docs/keys#obtain-api-keys
 
 app.use(express.static("."));
 app.use(express.json());
@@ -37,6 +37,7 @@ app.post("/checkout", async (req, res) => {
   
   // Send the object keys to the client
   res.send({
+    publishableKey: process.env.publishable_key // https://stripe.com/docs/keys#obtain-api-keys
     paymentIntentClientSecret: paymentIntent.client_secret,
     customerId: customer.id,
     customerEphemeralKeySecret: ephemeralKey.secret
