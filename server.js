@@ -37,9 +37,9 @@ app.post("/checkout", async (req, res) => {
   
   // Send the object keys to the client
   res.send({
-    clientSecret: paymentIntent.client_secret,
-    customerID: customer.id,
-    ephemeralKey: ephemeralKey.secret
+    paymentIntentClientSecret: paymentIntent.client_secret,
+    customerId: customer.id,
+    customerEphemeralKeySecret: ephemeralKey.secret
   });
 });
 
