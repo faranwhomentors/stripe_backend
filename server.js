@@ -52,7 +52,7 @@ app.post("/checkout_playground", async (req, res) => {
   let customer
   if (customer_type == "new") {
       customer = await stripe.customers.create();
-  } else if (customer_type == "saved") {
+  } else if (customer_type == "returning") {
       customer = await stripe.customers.retrieve(
         'cus_GWUuPERgJF44Dm'
       );
