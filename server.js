@@ -30,14 +30,14 @@ app.post("/checkout", async (req, res) => {
     
   // Create a PaymentIntent with the payment amount, currency, and customer
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: 100,
+    amount: 973,
     currency: "usd",
     customer: customer.id
   });
   
   // Send the object keys to the client
   res.send({
-    publishableKey: process.env.publishable_key // https://stripe.com/docs/keys#obtain-api-keys
+    publishableKey: process.env.publishable_key, // https://stripe.com/docs/keys#obtain-api-keys
     paymentIntentClientSecret: paymentIntent.client_secret,
     customerId: customer.id,
     customerEphemeralKeySecret: ephemeralKey.secret
