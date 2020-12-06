@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const { resolve } = require("path");
-// This is your real test secret API key.
 const stripe = require("stripe")(process.env.secret_key);
 
 app.use(express.static("."));
@@ -11,6 +10,8 @@ app.use(express.json());
 app.post("/checkout", async (req, res) => {
   let customer_type = req.body.customer
   console.log(req.body)
+  
+  // Create or retrieve the Stripe Customer object associated with your user
   let customer
   if (customer_type == "new" || customer_type == null) {
       customer = await stripe.customers.create();
@@ -20,19 +21,21 @@ app.post("/checkout", async (req, res) => {
       );
   }
   
-  // Create a PaymentIntent with the order amount, currency, and customer
+  // Create an ephemeral key for the Customer; this allows the app to display saved payment methods and save new ones
+  const ephemeralKey = await stripe.ephemeralKeys.create(
+    {customer: customer.id},
+    {apiVersion: '2020-08-27'}
+  );  
+  
+    
+  // Create a PaymentIntent with the payment amount, currency, and customer
   const paymentIntent = await stripe.paymentIntents.create({
     amount: 100,
     currency: "usd",
     customer: customer.id
   });
   
-  // Create an ephemeral key for the Customer
-  const ephemeralKey = await stripe.ephemeralKeys.create(
-    {customer: customer.id},
-    {apiVersion: '2020-08-27'}
-  );  
-  
+  // Send the object keys to the client
   res.send({
     clientSecret: paymentIntent.client_secret,
     customerID: customer.id,
