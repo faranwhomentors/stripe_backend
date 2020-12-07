@@ -18,7 +18,7 @@ app.post("/checkout", async (req, res) => {
   } else if (customer_type == "returning") {
       // Retrieve an existing Customer to let them use their previously saved payment methods
       customer = await stripe.customers.retrieve(
-        'cus_123' 
+        process.env.saved_customer_id
       );
   }
   
@@ -27,7 +27,6 @@ app.post("/checkout", async (req, res) => {
     {customer: customer.id},
     {apiVersion: '2020-08-27'}
   );  
-  
     
   // Create a PaymentIntent with the payment amount, currency, and customer
   const paymentIntent = await stripe.paymentIntents.create({
@@ -44,38 +43,5 @@ app.post("/checkout", async (req, res) => {
     customerEphemeralKeySecret: ephemeralKey.secret
   });
 });
-
-// An endpoint for the test playground
-app.post("/checkout_playground", async (req, res) => {
-
-  let customer_type = req.body.customer
-  console.log(req.body)
-  let customer
-  if (customer_type == "new") {
-      customer = await stripe.customers.create();
-  } else if (customer_type == "returning") {
-      customer = await stripe.customers.retrieve(
-        'cus_GWUuPERgJF44Dm'
-      );
-  }
-  
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: 100,
-    currency: "usd",
-    customer: customer.id
-  });
-  
-  const ephemeralKey = await stripe.ephemeralKeys.create(
-    {customer: customer.id},
-    {apiVersion: '2020-08-27'}
-  );  
-  
-  res.send({
-    clientSecret: paymentIntent.client_secret,
-    customerID: customer.id,
-    ephemeralKey: ephemeralKey.secret
-  });
-});
-
 
 app.listen(3000, () => console.log('Node server listening on port 4242!'));
