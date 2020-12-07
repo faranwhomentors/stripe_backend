@@ -16,8 +16,9 @@ app.post("/checkout", async (req, res) => {
   if (customer_type == "new" || customer_type == null) {
       customer = await stripe.customers.create();
   } else if (customer_type == "returning") {
+      // Retrieve an existing Customer to let them use their previously saved payment methods
       customer = await stripe.customers.retrieve(
-        'cus_GWUuPERgJF44Dm'  // A hardcoded customer ID
+        'cus_123' 
       );
   }
   
