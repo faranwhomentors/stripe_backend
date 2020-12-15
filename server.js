@@ -11,16 +11,8 @@ app.post("/checkout", async (req, res) => {
   let customer_type = req.body.customer
   console.log(req.body)
   
-  // Create or retrieve the Stripe Customer object associated with your user
-  let customer
-  if (customer_type == "new" || customer_type == null) {
-      customer = await stripe.customers.create();
-  } else if (customer_type == "returning") {
-      // Retrieve an existing Customer to let them use their previously saved payment methods
-      customer = await stripe.customers.retrieve(
-        process.env.saved_customer_id
-      );
-  }
+  // Create or retrieve the Stripe Customer object associated with your user.
+  let customer = await stripe.customers.create(); // This example just creates a new Customer every time
   
   // Create an ephemeral key for the Customer; this allows the app to display saved payment methods and save new ones
   const ephemeralKey = await stripe.ephemeralKeys.create(
