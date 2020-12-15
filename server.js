@@ -7,10 +7,7 @@ app.use(express.static("."));
 app.use(express.json());
 
 // An endpoint for your checkout 
-app.post("/checkout", async (req, res) => {
-  let customer_type = req.body.customer
-  console.log(req.body)
-  
+app.post("/checkout", async (req, res) => { 
   // Create or retrieve the Stripe Customer object associated with your user.
   let customer = await stripe.customers.create(); // This example just creates a new Customer every time
   
@@ -30,9 +27,9 @@ app.post("/checkout", async (req, res) => {
   // Send the object keys to the client
   res.send({
     publishableKey: process.env.publishable_key, // https://stripe.com/docs/keys#obtain-api-keys
-    paymentIntentClientSecret: paymentIntent.client_secret,
-    customerId: customer.id,
-    customerEphemeralKeySecret: ephemeralKey.secret
+    paymentIntent: paymentIntent.client_secret,
+    customer: customer.id,
+    ephemeralKey: ephemeralKey.secret
   });
 });
 
