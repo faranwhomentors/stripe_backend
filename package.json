@@ -9,7 +9,7 @@
 	"dependencies": {
 		"express": "^4.12.4",
 		"body-parser": "1.14.2",
-    "stripe": "8.96.0"
+		"stripe": "8.96.0"
 	},
 	"engines": {
 		"node": "4.4.5"
