@@ -9,10 +9,10 @@
     <h1>Hi there!</h1>
     
     <p>
-      Your server is running. You can test the endpoint with:
+      Your server is running. You can test the payment sheet endpoint with:
     </p>
     
-    <code id="endpoint_test"></code>
+    <code id="endpoint_test_command"></code>
 
     <!-- include the Glitch button to show what the webpage is about and
           to make it easier for folks to view source and remix -->
@@ -20,7 +20,7 @@
     <script src="https://button.glitch.me/button.js" defer></script>
     
     <script>
-    document.getElementById("endpoint_test").innerHTML = 
+    document.getElementById("endpoint_test_command").innerHTML = 
     "$ curl -X POST " + window.location.href + "payment-sheet";
     </script>
   </body>

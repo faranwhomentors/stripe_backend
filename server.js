@@ -38,15 +38,18 @@ app.post("/checkout", async (req, res) => {
 app.post("/payment-sheet", async (req, res) => {
   // Here, we're creating a new Customer. Use an existing Customer if this is a returning user.
   const customer = await stripe.customers.create();
+  
   const ephemeralKey = await stripe.ephemeralKeys.create(
     { customer: customer.id },
     { apiVersion: "2020-08-27" }
   );
+  
   const paymentIntent = await stripe.paymentIntents.create({
     amount: 1099,
     currency: "usd",
     customer: customer.id
   });
+  
   res.json({
     paymentIntent: paymentIntent.client_secret,
     ephemeralKey: ephemeralKey.secret,
@@ -54,4 +57,6 @@ app.post("/payment-sheet", async (req, res) => {
   });
 });
 
-app.listen(process.env.PORT, () => console.log(`Node server listening on port ${process.env.PORT}!`));
+app.listen(process.env.PORT, () =>
+  console.log(`Node server listening on port ${process.env.PORT}!`)
+);

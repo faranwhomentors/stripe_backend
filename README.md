@@ -1,6 +1,6 @@
 # An example backend for Stripe's drop-in mobile integration
 
-Follow instructions 
+Follow [these instructions](https://stripe.com/docs/mobile/payments-ui-beta) for setup.
 
 Set your [Stripe keys](https://stripe.com/docs/keys#obtain-api-keys) in the `🗝️.env` file on the left.
 
