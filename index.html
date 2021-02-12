@@ -9,28 +9,25 @@
     
     <!-- import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css">
-    
-    <!-- import the webpage's javascript file -->
-    <script src="/script.js" defer></script>
   </head>  
   <body>
+    
     <h1>Hi there!</h1>
     
     <p>
-      Your server is running. You can test the endpoints with:
+      Your server is running. You can test the endpoint with:
     </p>
     
-    <p id="endpoint_test">
-      Your server is running. You can test the endpoints with:
-    </p>
+    <code id="endpoint_test"></code>
 
     <!-- include the Glitch button to show what the webpage is about and
           to make it easier for folks to view source and remix -->
     <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
     <script src="https://button.glitch.me/button.js" defer></script>
+    
     <script>
-    document.getElementById("demo").innerHTML = 
-    "The full URL of this page is:<br>" + window.location.href;
+    document.getElementById("endpoint_test").innerHTML = 
+    "curl -X POST " + window.location.href + "payment-sheet";
     </script>
   </body>
 </html>
