@@ -1,3 +1,5 @@
+// This example uses the Express framework.
+// Watch this video to get started: https://youtu.be/rPR2aJ6XnAc.
 const express = require("express");
 const app = express();
 const { resolve } = require("path");
@@ -30,6 +32,25 @@ app.post("/checkout", async (req, res) => {
     paymentIntent: paymentIntent.client_secret,
     customer: customer.id,
     ephemeralKey: ephemeralKey.secret
+  });
+});
+
+app.post('/payment-sheet', async (req, res) => {
+  // Here, we're creating a new Customer. Use an existing Customer if this is a returning user.
+  const customer = await stripe.customers.create();
+  const ephemeralKey = await stripe.ephemeralKeys.create(
+    {customer: customer.id},
+    {stripe_version: '2020-08-27'}
+  );
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: 1099,
+    currency: 'usd',
+    customer: customer.id,
+  });
+  res.json({
+    paymentIntent: paymentIntent.client_secret,
+    ephemeralKey: ephemeralKey.secret,
+    customer: customer.id
   });
 });
 
