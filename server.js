@@ -54,4 +54,4 @@ app.post("/payment-sheet", async (req, res) => {
   });
 });
 
-app.listen(3000, () => console.log("Node server listening on port 3000!"));
+app.listen(process.env.PORT, () => console.log(`Node server listening on port ${process.env.PORT}!`));
