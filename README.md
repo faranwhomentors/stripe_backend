@@ -1,6 +1,6 @@
 # An example backend for Stripe's drop-in mobile integration
 
-1. Set your [Stripe keys](https://stripe.com/docs/keys#obtain-api-keys) in the `🗝️.env` file on the left.
+1. Set your [Stripe secret key](https://stripe.com/docs/keys#obtain-api-keys) in the `🗝️.env` file on the left.
 
 2. Click `Show` in the header to see your app live.
 
