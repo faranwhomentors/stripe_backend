@@ -1,10 +1,10 @@
 # An example backend for Stripe's drop-in mobile integration
 
-Follow [these instructions](https://stripe.com/docs/mobile/payments-ui-beta) for setup.
+1. Follow [these instructions](https://stripe.com/docs/mobile/payments-ui-beta) for setup.
 
-Set your [Stripe keys](https://stripe.com/docs/keys#obtain-api-keys) in the `🗝️.env` file on the left.
+2. Set your [Stripe keys](https://stripe.com/docs/keys#obtain-api-keys) in the `🗝️.env` file on the left.
 
-Click `Show` in the header to see your app live. Updates to your code will instantly deploy and update live.
+3. Click `Show` in the header to see your app live.
 
 ---
 
