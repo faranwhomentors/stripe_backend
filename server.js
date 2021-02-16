@@ -28,11 +28,13 @@ app.post("/payment-sheet", async (req, res) => {
   // Here, we're creating a new Customer. Use an existing Customer if this is a returning user.
   const customer = await stripe.customers.create();
   
+  // Create an ephemeral key for the Customer; this allows the app to display saved payment methods and save new ones
   const ephemeralKey = await stripe.ephemeralKeys.create(
     { customer: customer.id },
     { apiVersion: "2020-08-27" }
   );
   
+  // Create a PaymentIntent with the payment amount, currency, and customer
   const paymentIntent = await stripe.paymentIntents.create({
     amount: 1099,
     currency: "usd",
