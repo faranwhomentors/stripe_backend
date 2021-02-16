@@ -8,13 +8,21 @@ const stripe = require("stripe")(process.env.secret_key); // https://stripe.com/
 app.use(express.static("."));
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  if (process.env.secret_key.length === 0) {
-    res.status(200).send("Please set your Stripe secret key!");
-  } else {
-    res.sendFile(path.join(__dirname + '/success.html'));
+app.get("/", async (req, res) => {
+  // Test call to make sure secret key is correctly set
+  try {
+    const customers = await stripe.customers.list({
+      limit: 1
+    });
+  } catch (err) {
+    res.send(err.type + ": " + err.message);
+    return;
   }
+  
+  // Call returned successfully
+  res.sendFile(path.join(__dirname + "/success.html"));
 });
+
 
 app.post("/payment-sheet", async (req, res) => {
   // Here, we're creating a new Customer. Use an existing Customer if this is a returning user.
