@@ -5,9 +5,6 @@
     <title>Stripe Example</title>
   </head>  
   <body>
-    
-    <h1>Hi there!</h1>
-    
     <p>
       Your server is running. You can test the payment sheet endpoint with:
     </p>
@@ -20,15 +17,8 @@
     <script src="https://button.glitch.me/button.js" defer></script>
     
     <script>
-      console.log("abd");
-      if (process.env.secret_key == null) {
-        console.log("alo");
-        document.getElementById("endpoint_test_command").innerHTML = 
-        "Please set you secret key!";
-      } else {
-        document.getElementById("endpoint_test_command").innerHTML = 
+      document.getElementById("endpoint_test_command").innerHTML = 
         "$ curl -X POST " + window.location.href + "payment-sheet";
-      }
     </script>
   </body>
 </html>

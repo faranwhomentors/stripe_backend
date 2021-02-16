@@ -2,14 +2,18 @@
 // Watch this video to get started: https://youtu.be/rPR2aJ6XnAc.
 const express = require("express");
 const app = express();
-const { resolve } = require("path");
+const path = require("path");
 const stripe = require("stripe")(process.env.secret_key); // https://stripe.com/docs/keys#obtain-api-keys
 
 app.use(express.static("."));
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.status(200).send("WHATABYTE: Food For Devs");
+  if (process.env.secret_key.length === 0) {
+    res.status(200).send("Please set your Stripe secret key!");
+  } else {
+    res.sendFile(path.join(__dirname + '/success.html'));
+  }
 });
 
 app.post("/payment-sheet", async (req, res) => {
