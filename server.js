@@ -8,6 +8,10 @@ const stripe = require("stripe")(process.env.secret_key); // https://stripe.com/
 app.use(express.static("."));
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.status(200).send("WHATABYTE: Food For Devs");
+});
+
 app.post("/payment-sheet", async (req, res) => {
   // Here, we're creating a new Customer. Use an existing Customer if this is a returning user.
   const customer = await stripe.customers.create();

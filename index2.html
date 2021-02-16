@@ -20,8 +20,15 @@
     <script src="https://button.glitch.me/button.js" defer></script>
     
     <script>
-    document.getElementById("endpoint_test_command").innerHTML = 
-    "$ curl -X POST " + window.location.href + "payment-sheet";
+      console.log("abd");
+      if (process.env.secret_key == null) {
+        console.log("alo");
+        document.getElementById("endpoint_test_command").innerHTML = 
+        "Please set you secret key!";
+      } else {
+        document.getElementById("endpoint_test_command").innerHTML = 
+        "$ curl -X POST " + window.location.href + "payment-sheet";
+      }
     </script>
   </body>
 </html>
