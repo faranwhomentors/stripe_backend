@@ -15,7 +15,11 @@ app.get("/", async (req, res) => {
       limit: 1
     });
   } catch (err) {
-    res.send(err.type + ": " + err.message);
+    if (err.type == "StripeAuthenticationError") {
+      res.send("Set your Stripe secret key in the <code>🗝️.env</code> file.");
+    } else {
+      res.send(err.type + ": " + err.message);
+    }
     return;
   }
   
