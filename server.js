@@ -3,7 +3,10 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const stripe = require("stripe")(process.env.secret_key); // https://stripe.com/docs/keys#obtain-api-keys
+// Replace if using a different env file or config
+const env = require("dotenv").config({ path: "./.env" });
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
 
 app.use(express.static("."));
 app.use(express.json());
@@ -30,6 +33,9 @@ app.get("/", async (req, res) => {
 
 app.post("/payment-sheet", async (req, res) => {
   // Here, we're creating a new Customer. Use an existing Customer if this is a returning user.
+
+    const { amount, currency, description, shipping } = req.body;
+
   const customer = await stripe.customers.create();
   
   // Create an ephemeral key for the Customer; this allows the app to display saved payment methods and save new ones
@@ -40,8 +46,10 @@ app.post("/payment-sheet", async (req, res) => {
   
   // Create a PaymentIntent with the payment amount, currency, and customer
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: 1099,
-    currency: "usd",
+    amount: amount,
+    currency: currency,
+    shipping: shipping,
+    description: description,
     customer: customer.id
   });
   
@@ -52,6 +60,5 @@ app.post("/payment-sheet", async (req, res) => {
   });
 });
 
-app.listen(process.env.PORT, () =>
-  console.log(`Node server listening on port ${process.env.PORT}!`)
-);
+app.listen(4242, () => console.log(`Node server listening on port ${4242}!`));
+
